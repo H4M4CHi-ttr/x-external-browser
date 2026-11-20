@@ -1,0 +1,5 @@
+'use strict';const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
+const base=path.join(__dirname,'../round4');const html=fs.readFileSync(path.join(base,'index.html'),'utf8');const js=fs.readFileSync(path.join(base,'app.js'),'utf8');
+test('4 experimental paths and manual baseline present',()=>{for(const v of ['qr-timeline','qr-viewer','link-longpress','livetext-web','livetext-post','manual'])assert.ok(html.includes(v));});
+test('same QR and new Live Text image have direct download links',()=>{for(const n of ['qr-https.png','qr-safari.png','live-text-minimal.png'])assert.ok(html.includes('media/'+n)&&html.includes('download="'+n+'"'));});
+test('links are plain HTML and data remains local',()=>{assert.match(html,/id="plain-href" href="\.\.\/round3\/landing.html"/);assert.match(js,/localStorage\.setItem/);assert.match(js,/slice\(-100\)/);assert.doesNotMatch(js,/postMessage|sendBeacon|XMLHttpRequest|fetch\(|innerHTML/);});
