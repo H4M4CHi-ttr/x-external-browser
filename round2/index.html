@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="X内ブラウザ脱出実験・第2弾。素のリンク、meta refresh、共有UI、Instagram／Threads中継を実機で比較。">
+  <meta property="og:title" content="X内ブラウザ、まだ外へ出られない？｜実験 第2弾">
+  <meta property="og:description" content="4系統・10ケース。動いたかどうかは実機で目視確認。">
+  <meta name="twitter:card" content="summary">
+  <title>実験 第2弾 | Browser Escape Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<header><a href="../">↗ Browser Escape Lab</a><span class="badge">EXPERIMENT 02</span></header>
+<main>
+  <section class="hero">
+    <p class="eyebrow">第2弾 / 4系統・10ケース</p>
+    <h1>まだ外へ出られない？<br><span>違う経路を試そう。</span></h1>
+    <p>素のリンク・HTML転送・アプリ中継・OSの共有UI。<br>第1弾とは違う入口から、Xの外へ出られるか確かめます。</p>
+    <p class="notice"><strong>すべて未検証の候補です。</strong>この一覧は勝手に転送しません。まずSafari本体、次にX内で同じケースを試し、別アプリへ移ったか目視してください。</p>
+    <label for="page-url">Xに貼る第2弾のURL</label>
+    <div class="copy-row"><input id="page-url" readonly value="https://h4m4chi-ttr.github.io/x-external-browser/round2/"><button type="button" data-copy="page-url" disabled>コピー</button></div>
+    <nav aria-label="ページ内の移動"><a href="#plain">素のリンク</a><a href="#meta">HTML転送</a><a href="#relay">アプリ中継</a><a href="#share">共有UI</a><a href="#records">結果を記録</a></nav>
+  </section>
+  <noscript><p class="notice">素のリンク・HTML転送・アプリ中継はこのまま試せます。共有UIと記録にはJavaScriptが必要です。</p></noscript>
+  <section id="plain" class="panel">
+    <p class="eyebrow">01 / NO JAVASCRIPT</p><h2>記録処理すらない、素のリンク</h2>
+    <p>独立したHTMLで、<strong>同一サイト／別ドメイン × HTTPS／Safariスキーム</strong>の4ケースを比較します。リンクにはJavaScript、クリック処理、別タブ指定を付けていません。</p>
+    <a class="button primary" href="minimal.html">JavaScriptなしの比較ページを開く</a>
+    <p class="muted">別ドメインは example.com に固定。Safariで通ってXで通らないのかも比較してください。結果は戻って手動記録します。</p>
+  </section>
+  <section id="meta" class="panel">
+    <p class="eyebrow">02 / META REFRESH</p><h2>JavaScriptではなくHTMLで転送</h2>
+    <p class="notice"><strong>以下の専用ページは、開くと1秒後に転送を試します。</strong>ページ自身にはJavaScriptを置いていません。Xに専用URLを貼って直接開く経路も比較できます。</p>
+    <div class="grid">
+      <article><h3>M1 · 通常HTTPSへ</h3><p>転送自体が動くかの対照実験です。外部ブラウザへ出る保証はありません。</p><a class="button" href="meta-https.html">1秒後にHTTPSへ転送</a><label for="meta-https-url">X貼り付け用</label><input id="meta-https-url" readonly value="https://h4m4chi-ttr.github.io/x-external-browser/round2/meta-https.html"><button type="button" data-copy="meta-https-url" disabled>URLをコピー</button></article>
+      <article><h3>M2 · Safariスキームへ</h3><p>同じ遅延・同じ転送先で、スキームだけを変えて比較します。</p><a class="button" href="meta-safari.html">1秒後にSafari起動を試す</a><label for="meta-safari-url">X貼り付け用</label><input id="meta-safari-url" readonly value="https://h4m4chi-ttr.github.io/x-external-browser/round2/meta-safari.html"><button type="button" data-copy="meta-safari-url" disabled>URLをコピー</button></article>
+    </div>
+    <p class="muted">HTMLのmeta refreshです。HTTP 302ではありません。転送先はどちらも example.com。専用ページを再読み込みすると再試行します。止める場合は戻る操作で一覧へ戻ってください。</p>
+  </section>
+  <section id="relay" class="panel">
+    <p class="eyebrow">03 / APP RELAY</p><h2>Instagram／Threadsを中継する</h2>
+    <p><strong>対応アプリのインストールが必要</strong>です。非公開スキームでそのアプリに example.com を渡します。Xからの起動・中継先の動作は未確認です。</p>
+    <div class="grid">
+      <article><h3>R1 · Instagram経由</h3><a class="button" href="instagram://extbrowser/?url=https%3A%2F%2Fexample.com%2F">Instagram経由を試す</a></article>
+      <article><h3>R2 · Threads経由</h3><a class="button" href="barcelona://extbrowser/?url=https%3A%2F%2Fexample.com%2F">Threads経由を試す</a></article>
+    </div>
+    <p class="muted">アプリが開いただけで終わった場合は「中継アプリだけ開いた」を選んでください。自動インストールや自動再試行は行いません。</p>
+  </section>
+  <section id="share" class="panel">
+    <p class="eyebrow">04 / WEB SHARE</p><h2>OSの共有UIにURLを渡す</h2>
+    <p>共有先にブラウザや、事前に登録した「URLを開く」ショートカットが現れるかを調べます。<strong>Safariを直接指定するボタンではありません。</strong>選べる共有先は環境次第です。</p>
+    <p id="share-capability" class="muted">JavaScript実行後にAPIの有無を表示します。</p>
+    <div class="grid">
+      <article><h3>S1 · この実験室のURL</h3><button type="button" data-share-url="https://h4m4chi-ttr.github.io/x-external-browser/" disabled>実験室のURLを共有UIへ</button></article>
+      <article><h3>S2 · 別ドメインのURL</h3><button type="button" data-share-url="https://example.com/" disabled>example.com を共有UIへ</button></article>
+    </div>
+    <p id="share-status" class="notice" role="status">共有UIが表示されたことと、外部ブラウザが開いたことは別々に判定してください。</p>
+    <p class="muted">共有ボタンを押しただけで投稿・送信はしません。共有シートで宛先を選ぶと、その先の操作になります。不要な相手への送信に注意してください。</p>
+  </section>
+  <section id="records" class="panel">
+    <p class="eyebrow">MANUAL OBSERVATION</p><h2>戻って、見えた結果を記録</h2>
+    <p>試行の自動追跡はしません。<strong>実際に押したケースを自分で選んで</strong>保存してください。第1弾の記録は変更しません。</p>
+    <p id="storage-warning" class="notice" hidden>端末内に保存できません。記録はこの画面を離れると失われるため、先にJSONをコピーしてください。</p>
+    <div class="grid">
+      <label>端末・OS<input id="device" maxlength="200" placeholder="例：iPhone / iOSのバージョン"></label>
+      <label>Xアプリのバージョン<input id="xVersion" maxlength="200" placeholder="設定画面などで確認"></label>
+      <label>試行元<select id="source"><option value="">未記入</option><option>Xアプリ</option><option>Safari</option><option>Chrome</option><option>その他</option></select></label>
+      <label>経路<select id="route"><option value="">未記入</option><option>Xに貼ったURLから直接</option><option>第2弾の一覧から</option><option>その他</option></select></label>
+    </div>
+    <form id="result-form">
+      <label>試したケース<select id="case-id">
+        <option value="plain-https-same" data-case="plain-https-same">N1 · 素のHTTPS／同一サイト</option>
+        <option value="plain-https-cross" data-case="plain-https-cross">N2 · 素のHTTPS／別ドメイン</option>
+        <option value="plain-safari-same" data-case="plain-safari-same">N3 · 素のSafariスキーム／同一サイト</option>
+        <option value="plain-safari-cross" data-case="plain-safari-cross">N4 · 素のSafariスキーム／別ドメイン</option>
+        <option value="meta-https" data-case="meta-https">M1 · meta refresh／HTTPS</option>
+        <option value="meta-safari" data-case="meta-safari">M2 · meta refresh／Safari</option>
+        <option value="relay-instagram" data-case="relay-instagram">R1 · Instagram中継</option>
+        <option value="relay-threads" data-case="relay-threads">R2 · Threads中継</option>
+        <option value="share-lab" data-case="share-lab">S1 · 共有UI／実験室</option>
+        <option value="share-example" data-case="share-example">S2 · 共有UI／example.com</option>
+      </select></label>
+      <label>目視した結果<select id="outcome"><option value="unrated">結果を選択してください</option><option value="safari">Safariが別アプリで開いた</option><option value="external">その他の外部ブラウザが開いた</option><option value="inapp">Xなどのアプリ内のまま</option><option value="intermediary">中継アプリだけ開いた</option><option value="share-only">共有UIだけ表示された</option><option value="prompt">確認ダイアログだけ出た</option><option value="blocked">反応なし・エラー・API非対応</option><option value="cancelled">自分でキャンセルした</option><option value="unknown">判断できない</option></select></label>
+      <label>メモ<textarea id="note" maxlength="1000" rows="3" placeholder="開いたアプリ、確認ダイアログ、共有先、Safariとの違いなど"></textarea></label>
+      <button id="save-result" class="primary" type="submit" disabled>結果を保存</button>
+    </form>
+    <div class="actions"><button id="export" type="button" disabled>JSONを表示</button><button id="clear-results" type="button" disabled>第2弾の結果を消去</button><span id="result-count">0件</span></div>
+    <details><summary>記録済みの結果</summary><div id="history"></div></details>
+    <section id="export-report" hidden><h3>結果JSON</h3><p class="muted">端末情報・メモが含まれます。共有前に内容を確認してください。</p><textarea id="report-text" readonly rows="9" aria-label="結果のJSON" spellcheck="false"></textarea><button type="button" data-copy="report-text" disabled>JSONをコピー</button></section>
+    <p class="muted">最大100件。このブラウザ内だけに保存し、自動送信しません。SafariとXの保存領域は共有されない場合があります。記録は1つのタブで進めてください。</p>
+  </section>
+  <footer><a href="../">第1弾の15方式へ戻る</a> · <a href="https://github.com/H4M4CHi-ttr/x-external-browser/tree/main/round2">ソース・使い方</a><p>Round 2 · rev 1 / 追加ライブラリ・解析タグなし。Pagesへのアクセス、試したリンク先・中継アプリへの通信は発生します。独自サーバーが必要なHTTP 302とUniversal Linksは対象外です。</p></footer>
+</main>
+<p id="status" role="status" hidden></p>
+</body>
+</html>
