@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Xのアプリ内ブラウザからSafariなどへ移動できるか、リンク方式ごとに実機で比較する実験ページ。結果は端末内に保存。">
+  <meta property="og:title" content="X内ブラウザ、外へ出られる？ | Browser Escape Lab">
+  <meta property="og:description" content="Safariスキーム・Android Intent・別タブ・自動転送を比較。成功を決めつけず、実機で確かめる15の実験。">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <title>X内ブラウザ、外へ出られる？ | Browser Escape Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#experiments">実験へ移動</a>
+<header class="site-header wrap"><a class="brand" href="./">↗ Browser Escape Lab</a><span class="badge">実機検証用</span></header>
+<main class="wrap">
+  <section id="arrival" class="notice arrival" hidden aria-labelledby="arrival-title">
+    <p class="eyebrow">DESTINATION</p><h2 id="arrival-title">確認ページに到達しました</h2>
+    <p id="arrival-info"></p><p><strong>到達だけでは、外部ブラウザが開いた証明にはなりません。</strong>SafariやChromeが独立したアプリとして開いたか、画面やアプリ切替で確認してください。</p>
+    <p>結果は元のX内ブラウザに戻って記録するのがおすすめです。ブラウザが変わると、保存済みの結果も共有されない場合があります。</p>
+    <a id="back-to-lab" href="./">このブラウザで実験一覧を開く</a>
+  </section>
+  <section id="pending" class="notice pending" hidden aria-live="polite"><strong id="pending-message"></strong><button id="cancel-pending" type="button">予約した起動を中止</button></section>
+  <p id="storage-warning" class="notice warning" hidden role="status">端末内への保存が使えません。この画面を離れると記録が失われるため、先にJSONをコピーしてください。</p>
+  <noscript><p class="notice warning">実験と記録にはJavaScriptが必要です。まずXのメニューから外部ブラウザで開き、JavaScriptが使えるか確認してください。</p></noscript>
+  <section class="hero">
+    <p class="eyebrow">X IN-APP BROWSER / EXPERIMENT 01</p>
+    <h1>X内ブラウザ、<br><span>外へ出られる？</span></h1>
+    <p class="lead">Safariで開けば、ちゃんと見えるのに。<br>リンクの渡し方を変えて、実機で確かめる小さな実験室。</p>
+    <div class="hero-meta"><span>15の比較ケース</span><span>結果は端末内</span><span>自動の成功判定なし</span></div>
+  </section>
+  <section class="panel" aria-labelledby="how-title">
+    <h2 id="how-title">まずはこの順番で</h2>
+    <ol class="steps"><li>このページのURLをXに貼り、<strong>Xアプリから</strong>開く。</li><li>方式を1つずつ試す。別アプリが開いたか、目で確かめる。</li><li>元の画面に戻って結果を記録。OS・Xのバージョンも残す。</li></ol>
+    <p class="muted">最初にSafariやChromeから同じ実験を試すと、スキーム自体の対応とX側の挙動を比較できます。通常のこのページは勝手に転送しません。</p>
+    <label for="share-url">Xに貼る通常の実験URL</label>
+    <div class="copy-row"><input id="share-url" readonly><button id="copy-main" type="button">URLをコピー</button></div>
+  </section>
+  <section class="panel" aria-labelledby="environment-title">
+    <div class="section-head"><h2 id="environment-title">検証する環境</h2><span class="caption">各試行の開始時に記録</span></div>
+    <div class="fields">
+      <label>端末・OS<input id="device" maxlength="200" placeholder="例：iPhone 16 / iOS 26.1"></label>
+      <label>Xアプリのバージョン<input id="xVersion" maxlength="200" placeholder="設定画面などで確認して入力"></label>
+      <label>既定のブラウザ<input id="defaultBrowser" maxlength="200" placeholder="例：Safari"></label>
+      <label>試行を始める場所<select id="source"><option value="">未記入</option><option>Xアプリ</option><option>Safari</option><option>Chrome</option><option>その他</option></select></label>
+    </div>
+    <p class="muted small">User-AgentだけではX内・Safariなどを確定しません。上の項目は手動入力です。</p>
+  </section>
+  <section id="result-panel" class="panel result-panel" aria-labelledby="result-title">
+    <div class="section-head"><h2 id="result-title">見えた結果を記録</h2><span id="result-count" class="badge">0件</span></div>
+    <label for="attempt-select">記録する試行</label><select id="attempt-select"><option value="">まだ試行がありません</option></select>
+    <div class="fields result-fields">
+      <label>実際に起きたこと<select id="outcome"></select></label>
+      <label>メモ<textarea id="note" maxlength="1000" rows="2" placeholder="確認ダイアログ、開いたアプリ名、表示の違いなど"></textarea></label>
+    </div>
+    <div class="actions"><button id="save-result" class="primary" type="button" disabled>結果を保存</button><button id="export" type="button">JSONを書き出す</button><button id="clear-results" class="text-button" type="button">結果を消去</button></div>
+    <p class="muted small">最大100件をこのブラウザに保存します。保存結果の外部送信はありません。別タブで同時に記録せず、1つの検証画面で進めてください。</p>
+    <details><summary>記録済みの結果</summary><div id="history" class="history"></div></details>
+    <section id="export-report" hidden><h3>結果JSON</h3><p class="muted small">端末情報・入力したメモも含まれます。共有前に内容を確認してください。ダウンロードできない場合は本文をコピーできます。</p><textarea id="report-text" readonly rows="9" spellcheck="false" aria-label="結果のJSON"></textarea><div class="actions"><button id="copy-report" type="button">JSONをコピー</button><button id="download-report" type="button">JSONをダウンロード</button></div></section>
+  </section>
+  <section id="experiments" aria-labelledby="experiments-title">
+    <div class="section-head"><h2 id="experiments-title">リンク方式を比べる</h2><span class="caption">各ボタンは1回ずつ</span></div>
+    <nav class="jump-nav" aria-label="実験カテゴリ"><a href="#ios">iPhone / Safari</a><a href="#android">Android</a><a href="#control">比較用</a><a href="#automatic">自動起動</a></nav>
+    <section id="ios" class="test-group"><h3><span class="group-dot"></span>iPhone / Safari・Chrome</h3><p class="muted">Safariが既定ブラウザでなくても、Safari起動を狙う実験です。未対応の環境では無反応やエラーになることがあります。</p><div id="ios-cases" class="case-grid"></div></section>
+    <section id="android" class="test-group"><h3><span class="group-dot"></span>Android / Intent</h3><p class="muted">アプリ指定の有無とfallbackの違いを比較します。iPhoneでは対象外です。</p><div id="android-cases" class="case-grid"></div></section>
+    <section id="control" class="test-group"><h3><span class="group-dot"></span>通常リンク・比較用</h3><p class="muted">「新しいタブになった」と「Xを出て別アプリになった」を区別してください。</p><div id="control-cases" class="case-grid"></div></section>
+  </section>
+  <section id="automatic" class="panel" aria-labelledby="auto-title">
+    <p class="eyebrow">SEPARATE EXPERIMENT</p><h2 id="auto-title">Xのリンクを押しただけで外へ出る？</h2>
+    <p>以下は<strong>開くと1秒後に1回だけ起動を試す</strong>専用HTTPSリンクです。通常ページ内のタップ操作とは分けて検証します。</p>
+    <p class="muted">URLをXに貼って開く場合と、ここから開く場合では経路が違います。Xから試したかをメモに残してください。読み込み時の自動起動はブロックされる可能性があります。</p>
+    <div id="auto-cases" class="case-grid"></div>
+    <p class="muted small">これはJavaScriptによる転送です。HTTP 302やUniversal Linksの試験ではありません。任意URLへの転送は受け付けず、このサイト内の到達画面だけを開きます。</p>
+  </section>
+  <details class="panel"><summary>表示環境・レイアウト比較</summary><p class="muted">同じURLをX内とSafariで開き、値を比較してください。これだけで表示崩れの原因は特定できません。</p><pre id="diagnostics"></pre><div class="viewport-probes" aria-label="30vhと30dvhの高さ比較"><div id="vh-probe">30vh</div><div id="dvh-probe">30dvh</div></div><label>キーボード表示時の比較<input placeholder="ここをタップして高さの変化を確認"></label></details>
+  <footer class="footer"><p>Browser Escape Lab <span id="version"></span> · <a href="https://github.com/H4M4CHi-ttr/x-external-browser" rel="noopener" target="_blank">ソース・使い方</a></p><p>アプリ切替の可否はOS・X・設定によって変わります。このページは回避を保証するツールではありません。解析タグ・外部ライブラリは不使用。配信元GitHub Pagesの通常のアクセス処理は発生します。</p><p class="small">参考：<a href="https://developer.chrome.com/docs/android/intents" target="_blank" rel="noopener">ChromeのAndroid Intent仕様</a> / <a href="https://github.com/shalanah/inapp-debugger" target="_blank" rel="noopener">Inapp Debuggerの実機報告</a> / <a href="https://developers.line.biz/ja/docs/line-login/using-line-url-scheme/" target="_blank" rel="noopener">LINEのURLスキーム</a></p></footer>
+</main>
+<p id="status" class="toast" role="status" aria-live="polite" hidden></p>
+</body>
+</html>
