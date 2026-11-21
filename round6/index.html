@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="X内蔵ブラウザを検出して長押しプレビューからゲームをSafariで開く実験。">
+  <meta property="og:title" content="STAR CATCHER｜Xの外でゲームしよう">
+  <meta property="og:description" content="大きなゲームリンクを長押し、プレビューをタップ。Safariで開ける？">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <title>第6弾｜STAR CATCHER — Safariでプレイ実験</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./gate.js" defer></script>
+</head>
+<body class="gate-page">
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <header class="site-top wrap">
+    <a class="back" href="../">↖ Browser Escape Lab</a>
+    <span class="header-pill"><span aria-hidden="true">✦</span> ROUND 06</span>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="headline">
+      <p class="eyebrow">BROWSER GAME / LINK PREVIEW TEST</p>
+      <h1 id="headline">小さな宇宙へ、<br><span>飛び込もう。</span></h1>
+      <p class="intro-copy">ゲームはフルブラウザで遊びたい。Xの内蔵ブラウザから、長押しプレビューで抜け出せるか確かめるデモです。</p>
+      <div class="mini-chips" aria-label="ゲームの特徴"><span>✦ 10個の星を集めよう</span><span>◷ 25秒チャレンジ</span><span>◎ タップだけで遊べる</span></div>
+    </section>
+
+    <section id="x-ui" class="mode-card x-mode" hidden aria-labelledby="x-mode-title">
+      <div class="detected"><span class="indicator"></span><span id="x-mode-title">Xアプリ内ブラウザと思われる環境です</span></div>
+      <p class="mode-description">下のカードを<strong>指で長押し</strong>。ゲームのプレビューが現れたら、その<strong>プレビューをタップ</strong>してみてください。</p>
+      <a id="game-preview-link" class="launch-card" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">
+        <span class="launch-art" aria-hidden="true"><span class="ring ring-1"></span><span class="ring ring-2"></span><span class="planet">★</span></span>
+        <span class="launch-content">
+          <span class="launch-eyebrow">PRESS & HOLD TO PLAY</span>
+          <strong>長押しで<br>ゲームプレイ</strong>
+          <span class="launch-foot">画面を押し続けて、リンクプレビューを表示</span>
+        </span>
+        <span class="launch-arrow" aria-hidden="true">↗</span>
+      </a>
+      <div class="guide">
+        <div><span class="step-number">01</span><span>上の大きなリンクを<strong>長押し</strong></span></div>
+        <div><span class="step-number">02</span><span>ゲーム画面の<strong>プレビューをタップ</strong></span></div>
+        <div><span class="step-number">03</span><span><strong>Safariが起動したか</strong>確認</span></div>
+      </div>
+      <p class="safety-note">プレビューのタップでX内に残る可能性もあります。その場合は、長押しメニューにある<strong>「Safariで開く」</strong>を選ぶ方法も試してください。プレビュー表示や遷移先はX／iOS側の実装に依存します。</p>
+    </section>
+
+
+    <section id="android-ui" class="mode-card android-mode" hidden aria-labelledby="android-mode-title">
+      <div class="detected"><span class="indicator"></span><span id="android-mode-title">Android版X向けの案内</span></div>
+      <p class="mode-description">AndroidではQRやリンク長押しに頼らず、<strong>Chromeの起動を試すリンク</strong>を用意しました。これは実験用で、Xが許可する保証はありません。</p>
+      <a class="android-launch" id="android-intent-link" href="intent://h4m4chi-ttr.github.io/x-external-browser/round6/play.html#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fh4m4chi-ttr.github.io%2Fx-external-browser%2Fround6%2Fplay.html;end"><span class="android-mark" aria-hidden="true">↗</span><span><strong>Chromeでゲームを開く</strong><small>タップして外部ブラウザ起動を試す</small></span></a>
+      <p class="android-note">Chromeがインストールされている場合の試験です。XがIntentを処理しなければ無反応、エラー、X内での再表示になることがあります。「Chromeで実行中」という表示だけでは、独立したブラウザへの移動は確認できません。</p>
+      <details class="android-fallback" open>
+        <summary>開けない場合：Xのメニューから外部ブラウザへ</summary>
+        <ol>
+          <li>X内ブラウザの右上などにある<strong>「⋮」</strong>をタップ</li>
+          <li><strong>「ブラウザで開く」／「Chromeブラウザで開く」</strong>を選択</li>
+          <li>ブラウザの画面になったら、ゲームをプレイ</li>
+        </ol>
+        <p>メニューの位置や文言はXアプリのバージョンで変わります。Android版Xの設定に「外部リンクを開く → 外部ブラウザ」がある場合は、今後のリンクを最初から外部で開く設定も検討できますが、環境によっては効かない報告もあります。</p>
+        <label for="android-copy-url">ゲームのURL</label>
+        <div class="copy-row"><input id="android-copy-url" type="text" readonly value="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html"><button id="copy-android" type="button">コピー</button></div>
+        <p id="copy-android-status" aria-live="polite"></p>
+        <a class="android-normal-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">通常リンクでゲームを開く（X内のままの可能性あり）</a>
+      </details>
+    </section>
+
+    <section id="normal-ui" class="mode-card normal-mode" aria-labelledby="normal-mode-title">
+      <div class="detected"><span class="indicator"></span><span id="normal-mode-title">通常のブラウザとして表示中</span></div>
+      <p class="mode-description">通常のブラウザでは、そのままゲームを始められます。</p>
+      <a id="normal-play-link" class="normal-play" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html"><span aria-hidden="true">✦</span> タップしてゲームをプレイ <span aria-hidden="true">↗</span></a>
+      <p class="muted">iPhone版Xの長押し画面を表示する場合は <a href="?demo=x">こちら</a>。Android版Xの案内を表示する場合は <a href="?demo=android">こちら</a>。どちらも見た目の切り替えだけで、Xの動作は再現できません。</p>
+      <p id="android-entry-help" class="muted" hidden>Android版Xで開いたのに通常表示になっている場合は <a href="?demo=android">Android向けの案内</a> を表示してください。XがChrome Custom Tabsを使う場合、User-AgentだけでX内ブラウザと断定できません。</p>
+    </section>
+
+    <section class="experiment-info" aria-labelledby="info-title">
+      <div class="panel-heading"><span class="eyebrow">WHAT WE ARE TESTING</span><h2 id="info-title">今回、確かめたいこと</h2></div>
+      <p>第4弾で確認したのは<strong>通常リンクを長押し → メニューの「Safariで開く」</strong>でした。今回は「プレビュー自体をタップしたら外部ブラウザへ飛べるか」という別の操作を試します。</p>
+      <form id="result-form" class="result-form">
+        <label for="route">試した操作</label>
+        <select id="route" required>
+          <option value="">選択してください</option>
+          <option value="preview">長押し → プレビューをタップ</option>
+          <option value="menu-safari">長押し → 「Safariで開く」を選ぶ</option>
+          <option value="ordinary">通常タップ</option>
+          <option value="no-preview">長押ししてもプレビューが出ない</option>
+          <option value="android-intent">Android：Chrome起動リンクをタップ</option>
+          <option value="android-menu">Android：Xの「ブラウザで開く」を選ぶ</option>
+          <option value="android-copy">Android：URLをコピーしてブラウザへ貼る</option>
+        </select>
+        <label for="result">実際の結果</label>
+        <select id="result" required>
+          <option value="">選択してください</option>
+          <option value="safari">Safariが別アプリとして開いた</option>
+          <option value="other">別の外部ブラウザが開いた</option>
+          <option value="inapp">X内ブラウザに残った</option>
+          <option value="menu-only">メニュー／プレビューだけ表示された</option>
+          <option value="failed">無反応・判定不能</option>
+          <option value="error">アプリ・Intent・リンク処理のエラーが出た</option>
+        </select>
+        <button type="submit" class="save-result">端末内に結果を記録</button>
+      </form>
+      <p id="record-status" class="record-status" aria-live="polite"></p>
+      <details class="readout">
+        <summary>実験環境と記録を確認</summary>
+        <p id="environment">確認中</p>
+        <p id="history">まだ記録はありません。</p>
+        <p class="muted">記録はこのブラウザのlocalStorageにのみ保存します。外部へ自動送信しません。</p>
+      </details>
+    </section>
+  </main>
+  <footer class="site-footer wrap"><a href="../">実験一覧</a> · <a href="./play.html">ゲーム本体</a> · <a href="https://github.com/H4M4CHi-ttr/x-external-browser/tree/main/round6" rel="noopener">ソース</a></footer>
+</body></html>

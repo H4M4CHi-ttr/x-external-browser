@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="25秒で星を10個集めよう。指でタップするだけの小さなブラウザゲーム。">
+  <meta property="og:title" content="STAR CATCHER｜星を集めよう">
+  <meta property="og:description" content="ゲーム画面のプレビューが表示されるかを実験。すぐ遊べるタップゲーム。">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <title>STAR CATCHER｜Tap to play</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./play.js" defer></script>
+</head>
+<body class="play-page">
+  <main class="game-wrap">
+    <header class="game-header">
+      <div class="game-mark"><span class="mark" aria-hidden="true">✦</span><div><p class="eyebrow">ROUND 06 · MINI GAME</p><h1>STAR CATCHER</h1></div></div>
+      <a href="./" class="quiet-link">↖ 戻る</a>
+    </header>
+    <section class="game-panel" aria-label="星集めゲーム">
+      <div class="game-topline"><span>流れ星をつかまえろ</span><span class="mode-label">TAP TO CATCH</span></div>
+      <div class="game-scoreboard">
+        <div class="metric"><span class="metric-label">STARS</span><strong><span id="score">0</span><small> / 10</small></strong></div>
+        <div class="metric metric-time"><span class="metric-label">TIME</span><strong><span id="time">25</span><small> 秒</small></strong></div>
+      </div>
+      <div id="game-field" class="game-field">
+        <div class="orbit orbit-outer" aria-hidden="true"></div>
+        <div class="orbit orbit-inner" aria-hidden="true"></div>
+        <div class="nebula" aria-hidden="true"></div>
+        <button id="star" class="catch-star" type="button" aria-label="星をキャッチして得点する"><span aria-hidden="true">★</span></button>
+        <div id="game-end" class="game-end" hidden>
+          <span id="end-icon" class="end-icon" aria-hidden="true">✨</span>
+          <strong id="end-title">CLEAR!</strong>
+          <p id="end-detail"></p>
+          <button id="again" type="button" class="again-button">もう一度プレイ ↻</button>
+        </div>
+      </div>
+      <div class="bottom-bar"><span id="game-message" role="status" aria-live="polite">★をタップするとスタート！</span><span class="score-target">10 STARS TO WIN</span></div>
+    </section>
+    <p class="game-help">星を<strong>10個</strong>集めればクリア。最初のタップから25秒のカウントダウンが始まります。</p>
+    <aside id="x-warning" class="x-warning" hidden>このページはXの内蔵ブラウザで表示されている可能性があります。外部ブラウザへ移動したかは、画面の外枠・アプリ切替で確認してください。<a href="./">長押し実験に戻る</a></aside>
+    <footer class="game-footer"><a href="./">実験の入口へ</a><span>© Browser Escape Lab · No tracking</span></footer>
+  </main>
+</body></html>
