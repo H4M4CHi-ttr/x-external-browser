@@ -38,6 +38,28 @@
         <a id="game-absolute-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">ゲームを開く（通常テキスト・絶対URL）</a>
         <a id="game-relative-link" href="./play.html">ゲームを開く（通常テキスト・相対URL）</a>
       </div>
+      <details class="gesture-lab" open>
+        <summary>長押し条件の比較（11ケース）</summary>
+        <p>すべて<strong>同じゲームURL</strong>を開く通常のHTMLリンクです。指を動かさず長押しし、<strong>「Safariで開く」／プレビュー／白いドラッグ表示／無反応</strong>のどれになるか比較します。リンクへのJavaScriptイベントは設定していません。</p>
+        <h4 class="gesture-section-title">A. ドラッグ禁止の方法を比較</h4><div class="gesture-grid">
+<article class="gesture-case" id="case-p0"><h5>P0｜基準（追加指定なし）</h5><a id="probe-p0" data-probe="p0" class="probe-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">ゲームを開く</a><p>他のケースとの比較基準</p></article>
+<article class="gesture-case" id="case-p1"><h5>P1｜HTMLのドラッグ禁止</h5><a id="probe-p1" data-probe="p1" class="probe-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html" draggable="false">ゲームを開く</a><p>draggable=false だけ追加</p></article>
+<article class="gesture-case" id="case-p2"><h5>P2｜CSSのドラッグ禁止</h5><a id="probe-p2" data-probe="p2" class="probe-link probe-nodrag" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">ゲームを開く</a><p>-webkit-user-drag:none だけ追加</p></article>
+<article class="gesture-case" id="case-p3"><h5>P3｜HTML＋CSSドラッグ禁止</h5><a id="probe-p3" data-probe="p3" class="probe-link probe-nodrag" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html" draggable="false">ゲームを開く</a><p>P1とP2の両方</p></article>
+<article class="gesture-case" id="case-p10"><h5>P10｜明示的にドラッグ可能</h5><a id="probe-p10" data-probe="p10" class="probe-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html" draggable="true">ゲームを開く</a><p>ドラッグ表示の負の対照</p></article>
+</div>
+        <h4 class="gesture-section-title">B. 文字選択・タッチ・メニュー表示</h4><div class="gesture-grid">
+<article class="gesture-case" id="case-p4"><h5>P4｜文字選択禁止</h5><a id="probe-p4" data-probe="p4" class="probe-link probe-no-select" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">ゲームを開く</a><p>選択は防げてもメニューも消える可能性</p></article>
+<article class="gesture-case" id="case-p5"><h5>P5｜タッチ操作の変更</h5><a id="probe-p5" data-probe="p5" class="probe-link probe-manipulation" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">ゲームを開く</a><p>touch-action:manipulation だけ追加</p></article>
+<article class="gesture-case" id="case-p6"><h5>P6｜メニューを明示的に許可</h5><a id="probe-p6" data-probe="p6" class="probe-link probe-callout" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">ゲームを開く</a><p>-webkit-touch-callout:default だけ追加</p></article>
+</div>
+        <h4 class="gesture-section-title">C. 子要素の有無とタッチ対象</h4><div class="gesture-grid">
+<article class="gesture-case" id="case-p7"><h5>P7｜子要素入り</h5><a id="probe-p7" data-probe="p7" class="probe-link probe-nested" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html"><span class="probe-symbol" aria-hidden="true">✦</span><span class="probe-word">ゲームを開く</span></a><p>装飾用spanを含む構造</p></article>
+<article class="gesture-case" id="case-p8"><h5>P8｜子要素のポインター判定を無効</h5><a id="probe-p8" data-probe="p8" class="probe-link probe-nested probe-pass" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html"><span class="probe-symbol" aria-hidden="true">✦</span><span class="probe-word">ゲームを開く</span></a><p>P7の子要素にpointer-events:none</p></article>
+<article class="gesture-case" id="case-p9"><h5>P9｜子要素入り＋CSSドラッグ禁止</h5><a id="probe-p9" data-probe="p9" class="probe-link probe-nested probe-nodrag" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html"><span class="probe-symbol" aria-hidden="true">✦</span><span class="probe-word">ゲームを開く</span></a><p>P7のリンクに-webkit-user-drag:none</p></article>
+</div>
+        <p class="gesture-warning">一部の指定は逆に長押しメニューを消す可能性があります。各ケースはまだiPhone版Xで成功未確認です。押した場所（文字の上／余白）もメモすると切り分けに役立ちます。</p>
+      </details>
       <details class="old-design">
         <summary>比較用：前の装飾カードを開く</summary>
         <p>旧デザインの多層構造が原因か切り分けるための対照です。</p>
@@ -104,6 +126,19 @@
           <option value="absolute">素のテキストリンク（絶対URL）</option>
           <option value="relative">素のテキストリンク（相対URL）</option>
           <option value="ornate">旧版の装飾カード</option>
+          <optgroup label="長押し条件の比較">
+          <option value="p0">P0｜基準（追加指定なし）</option>
+          <option value="p1">P1｜HTMLのドラッグ禁止</option>
+          <option value="p2">P2｜CSSのドラッグ禁止</option>
+          <option value="p3">P3｜HTML＋CSSドラッグ禁止</option>
+          <option value="p4">P4｜文字選択禁止</option>
+          <option value="p5">P5｜タッチ操作の変更</option>
+          <option value="p6">P6｜メニューを明示的に許可</option>
+          <option value="p7">P7｜子要素入り</option>
+          <option value="p8">P8｜子要素のポインター判定を無効</option>
+          <option value="p9">P9｜子要素入り＋CSSドラッグ禁止</option>
+          <option value="p10">P10｜明示的にドラッグ可能</option>
+          </optgroup>
           <option value="back">上部「トップに戻る」（対照）</option>
           <option value="android">Androidの外部ブラウザ導線</option>
         </select>
@@ -114,6 +149,9 @@
           <option value="menu-safari">長押し → 「Safariで開く」を選ぶ</option>
           <option value="ordinary">通常タップ</option>
           <option value="no-preview">長押ししてもプレビューが出ない</option>
+          <option value="drag">長押し → 白いドラッグ表示になった</option>
+          <option value="text-selection">長押し → テキスト選択になった</option>
+          <option value="context-only">長押し → ゲームプレビュー以外のメニューになった</option>
           <option value="android-intent">Android：Chrome起動リンクをタップ</option>
           <option value="android-menu">Android：Xの「ブラウザで開く」を選ぶ</option>
           <option value="android-copy">Android：URLをコピーしてブラウザへ貼る</option>
@@ -125,6 +163,8 @@
           <option value="other">別の外部ブラウザが開いた</option>
           <option value="inapp">X内ブラウザに残った</option>
           <option value="menu-only">メニュー／プレビューだけ表示された</option>
+          <option value="drag">白いドラッグ表示だけが出た</option>
+          <option value="selected">テキスト選択だけが出た</option>
           <option value="failed">無反応・判定不能</option>
           <option value="error">アプリ・Intent・リンク処理のエラーが出た</option>
         </select>

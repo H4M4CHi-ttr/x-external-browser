@@ -79,3 +79,25 @@ Androidのメイン導線は、実機で起動に失敗したIntentではなく�
 
 参考：Chrome公式 https://developer.chrome.com/docs/android/intents
 2026年11月のAndroid版Xメニュー紹介 https://engrmemo.jp/android/twitter-inner-browser-to-app/
+
+## 2026-11-21：iOS長押しジェスチャーの11ケース比較
+
+「長押しでSafariメニューが出る」場合と「白いリンクドラッグの小窓だけが出る」場合を切り分ける。すべて同じHTTPSゲームURLを指す普通のアンカーで、試験リンクにJavaScriptのジェスチャーイベントは付けない。
+
+- P0: 基準、追加指定なし
+- P1: HTML `draggable=false` のみ
+- P2: CSS `-webkit-user-drag:none` のみ
+- P3: P1+P2
+- P4: `user-select:none; -webkit-user-select:none` （メニューまで消える可能性）
+- P5: `touch-action:manipulation` のみ
+- P6: `-webkit-touch-callout:default` のみ
+- P7: 装飾用子`span`2つを追加
+- P8: P7＋子要素だけ`pointer-events:none`
+- P9: P7＋`-webkit-user-drag:none`
+- P10: `draggable=true`（ドラッグ挙動の負の対照）
+
+P1/P2/P4/P5/P6/P10はP0から原則1条件だけ変え、P8/P9はP7との比較に使う。大きなリンク・普通のテキストリンク・旧装飾カードは既存のまま残す。試行位置（テキスト中央／余白）を揃えて比較し、フォームに結果を記録する。
+
+注意：`-webkit-touch-callout`は長押しメニューを制御するが、iOSのWebViewではアプリがコンテキストメニュー・ドラッグを独自に制御する。CSSが特定動作を保証するわけではなく、実機未検証。
+
+資料： https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/-webkit-touch-callout

@@ -72,3 +72,29 @@ test('Android default prioritizes the manual external-browser route', () => {
   assert.match(gate, /このアクションを実行できるアプリはありません/);
   assert.ok(main > 0 && experimental > main);
 });
+
+test('Gesture P0-P10: fixed destination, distinct IDs and one-variable cases', () => {
+  const links=[...gate.matchAll(/<a id="probe-(p\d+)"[^>]*href="([^"]+)"[^>]*>/g)];
+  assert.equal(links.length,11);
+  assert.equal(new Set(links.map(x=>x[1])).size,11);
+  const url='https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html';
+  for(const link of links) assert.equal(link[2],url);
+  const tag=id=>links.find(x=>x[1]===id)?.[0]||'';
+  assert.doesNotMatch(tag('p0'),/draggable=|probe-nodrag|probe-no-select|probe-manipulation|probe-callout/);
+  assert.match(tag('p1'),/draggable="false"/);
+  assert.match(tag('p2'),/probe-nodrag/);
+  assert.match(tag('p3'),/probe-nodrag.*draggable="false"/);
+  assert.match(tag('p4'),/probe-no-select/);
+  assert.match(tag('p5'),/probe-manipulation/);
+  assert.match(tag('p6'),/probe-callout/);
+  assert.match(tag('p7'),/probe-nested/);
+  assert.match(tag('p8'),/probe-nested probe-pass/);
+  assert.match(tag('p9'),/probe-nested probe-nodrag/);
+  assert.match(tag('p10'),/draggable="true"/);
+});
+test('Gesture P0-P10: outcomes can be recorded without intercepting gestures', () => {
+  for(let i=0;i<=10;i++)assert.match(gate,new RegExp('<option value="p'+i+'">'));
+  for(const outcome of ['drag','text-selection','context-only']) assert.ok(gate.includes('value="'+outcome+'"'));
+  assert.doesNotMatch(gate,/oncontextmenu=|ontouchstart=|ontouchend=|ondragstart=/i);
+  assert.doesNotMatch(gateJs,/addEventListener\(['"](?:touchstart|dragstart|contextmenu)/);
+});

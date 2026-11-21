@@ -168,3 +168,25 @@ button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid #f9b
 .android-experiment .android-launch{min-height:auto;padding:14px;border-width:1px;box-shadow:none;gap:13px}
 .android-experiment .android-launch strong{font-size:1.05rem}
 .android-experiment .android-launch small{font-size:.76rem}
+
+/* Comparison-only links; each candidate points to the exact same HTTPS game URL. */
+.gesture-lab{margin:21px 0 0;padding:15px;border:1px solid #5770a3;background:#0d1b38;border-radius:14px}
+.gesture-lab>summary{color:#f2f4ff;font-size:.96rem;font-weight:850;cursor:pointer}
+.gesture-lab>p{font-size:.82rem;color:#bccbea;line-height:1.7}
+.gesture-section-title{font-size:.84rem;letter-spacing:.04em;color:#cad9f9;margin:24px 0 11px;border-bottom:1px solid #344a70;padding-bottom:5px}
+.gesture-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.gesture-case{border:1px solid #405680;border-radius:12px;padding:13px;background:#142449;min-width:0}
+.gesture-case h5{font-size:.81rem;color:#d8e1f6;margin:0 0 10px}
+.gesture-case p{font-size:.72rem;color:#b2c4e3;line-height:1.6;margin:10px 0 0}
+.probe-link{display:flex;justify-content:center;align-items:center;gap:9px;min-height:75px;
+ padding:17px 12px;background:#344c96;color:#fff;border:1px solid #86a7e9;
+ border-radius:10px;text-decoration:none;text-align:center;font-size:1.1rem;font-weight:800;cursor:pointer}
+.probe-link:focus-visible{outline:3px solid #ffd58a;outline-offset:3px}
+.probe-link.probe-nodrag{-webkit-user-drag:none}
+.probe-link.probe-no-select{user-select:none;-webkit-user-select:none}
+.probe-link.probe-manipulation{touch-action:manipulation}
+.probe-link.probe-callout{-webkit-touch-callout:default}
+.probe-nested .probe-symbol{font-size:1.4rem;color:#ffe6a0}
+.probe-pass>*{pointer-events:none}
+.gesture-lab .gesture-warning{font-size:.78rem;color:#9fb1d4}
+@media(max-width:650px){.gesture-grid{grid-template-columns:1fr}.gesture-lab{padding:13px}.probe-link{min-height:68px}}
