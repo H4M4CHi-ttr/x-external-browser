@@ -49,3 +49,33 @@ Apple/WebKitの背景:
 Google ChromeのIntent公式仕様: https://developer.chrome.com/docs/android/intents
 2026年のX Android設定報告: https://engrmemo.jp/nw/twitter-inner-browser/
 2026年7月の設定動作不具合報告: https://sbapp.net/appnews/sns/twi/syogai/external-browser-bug-185879
+
+## 2026-11-21: iPhone版Xの長押しメニューが出ない報告と比較試験
+
+iPhone版Xで、ページ上部の簡単な「トップに戻る」リンクは長押しメニューが出る一方、元の装飾カードではメニューが出ないという実機報告を受けた。**原因は未確定**。リンク要素自体には正常な`href`があり、JavaScriptによる`contextmenu`イベントの中止処理はない。
+
+以下を同じゲーム画面に対して比較できるようにした：
+
+1. 大きな単一テキストリンク（装飾を減らし、子要素なし、元のカードと同じ絶対URL）。今回の第一候補。
+2. 普通のテキストリンク・絶対URL（第一候補と同じhref）。
+3. 普通のテキストリンク・相対URL（ブラウザが解決すれば同じURL）。
+4. 旧版の装飾カード（詳細の中に保存）。
+5. トップに戻るリンク（既に動作報告あり）。
+
+**どれでプレビューが出るか**、プレビューをタップした場合と「Safariで開く」メニューを選んだ場合の行き先を分けて記録する。プレビューのタップでSafariが起動する保証はない。iPhone版Xのコンテキストメニュー表示はWebKitやアプリ側の処理に依存する。
+
+- 1だけ成功するなら、旧カードにあった入れ子レイアウトやCSSが原因候補になる。
+- 2成功／3失敗なら、絶対URLと相対URLの処理を疑う（逆の組み合わせも同様）。
+- 1と2が成功、4が失敗なら、複雑なカード構造・装飾に関係する可能性が高まる。
+- 1〜4すべて失敗、5だけ成功なら、リンク先・経路・アプリ側のドメイン処理などをさらに調べる必要がある。
+
+現時点で実機のX内蔵ブラウザの再現・検証はできない。検証ページが出ただけで「バグ修正済み」と判定しない。
+
+## 2026-11-21: Android Intentの実機エラー報告
+
+Androidで公開した`intent://`リンクの操作時に「⚠️このアクションを実行できるアプリはありません」というエラーが報告された。これは**そのX・Android環境で今回のURIを処理できなかった**ことを示すが、Chrome未導入や全Androidでの失敗を証明しない。Googleの`S.browser_fallback_url`はChromeがIntentリンクを処理する場合の仕組みで、Xが常に扱う保証はない。
+
+Androidのメイン導線は、実機で起動に失敗したIntentではなく、「X内ブラウザの⋮ → ブラウザで開く」を先頭に変更した。URLコピーを第2候補、Intentリンクは詳細欄に格下げし、成功未確認・エラー報告ありと明記する。AndroidでQRや長押しを案内しない。
+
+参考：Chrome公式 https://developer.chrome.com/docs/android/intents
+2026年11月のAndroid版Xメニュー紹介 https://engrmemo.jp/android/twitter-inner-browser-to-app/

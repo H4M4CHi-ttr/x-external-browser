@@ -37,7 +37,7 @@ try {
 }
 function render() {
   $('history').textContent = items.length ?
-    '端末内の記録 ' + items.length + '件 / 最新: ' + items[items.length - 1].route +
+    '端末内の記録 ' + items.length + '件 / 最新: ' + (items[items.length - 1].variant || '旧記録') + ' · ' + items[items.length - 1].route +
     ' → ' + items[items.length - 1].result + '（' + items[items.length - 1].at + '）' :
     'まだ記録はありません。';
 }
@@ -54,12 +54,12 @@ $('copy-android').addEventListener('click', async () => {
 });
 $('result-form').addEventListener('submit', event => {
   event.preventDefault();
-  const route = $('route').value, result = $('result').value;
-  if (!route || !result) {
+  const route = $('route').value, result = $('result').value, variant = $('link-variant').value;
+  if (!route || !result || !variant) {
     $('record-status').textContent = '操作と結果を選んでください。';
     return;
   }
-  items.push({route, result, at: new Date().toISOString(), detectedByUA: xUA});
+  items.push({route, result, variant, at: new Date().toISOString(), detectedByUA: xUA});
   items = items.slice(-30);
   try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (_) { storageOK = false; }
   render();

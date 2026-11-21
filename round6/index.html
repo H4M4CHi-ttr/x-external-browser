@@ -31,8 +31,17 @@
 
     <section id="x-ui" class="mode-card x-mode" hidden aria-labelledby="x-mode-title">
       <div class="detected"><span class="indicator"></span><span id="x-mode-title">Xアプリ内ブラウザと思われる環境です</span></div>
-      <p class="mode-description">下のカードを<strong>指で長押し</strong>。ゲームのプレビューが現れたら、その<strong>プレビューをタップ</strong>してみてください。</p>
-      <a id="game-preview-link" class="launch-card" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">
+      <p class="mode-description">下の大きな<strong>文字リンクを長押し</strong>してください。プレビューが現れたら、<strong>プレビューをタップ</strong>してみてください。</p>
+      <a id="game-preview-link" class="launch-simple" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">長押しでゲームプレイ</a>
+      <p class="mini-note">大きいリンクで長押しメニューが出ない場合は、下の文字リンクで比較してください。<strong>どちらも同じゲームに移動します。</strong></p>
+      <div class="plain-probes" aria-label="長押しメニューの比較リンク">
+        <a id="game-absolute-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">ゲームを開く（通常テキスト・絶対URL）</a>
+        <a id="game-relative-link" href="./play.html">ゲームを開く（通常テキスト・相対URL）</a>
+      </div>
+      <details class="old-design">
+        <summary>比較用：前の装飾カードを開く</summary>
+        <p>旧デザインの多層構造が原因か切り分けるための対照です。</p>
+      <a id="old-ornate-card" class="launch-card" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">
         <span class="launch-art" aria-hidden="true"><span class="ring ring-1"></span><span class="ring ring-2"></span><span class="planet">★</span></span>
         <span class="launch-content">
           <span class="launch-eyebrow">PRESS & HOLD TO PLAY</span>
@@ -41,6 +50,7 @@
         </span>
         <span class="launch-arrow" aria-hidden="true">↗</span>
       </a>
+      </details>
       <div class="guide">
         <div><span class="step-number">01</span><span>上の大きなリンクを<strong>長押し</strong></span></div>
         <div><span class="step-number">02</span><span>ゲーム画面の<strong>プレビューをタップ</strong></span></div>
@@ -51,23 +61,28 @@
 
 
     <section id="android-ui" class="mode-card android-mode" hidden aria-labelledby="android-mode-title">
-      <div class="detected"><span class="indicator"></span><span id="android-mode-title">Android版X向けの案内</span></div>
-      <p class="mode-description">AndroidではQRやリンク長押しに頼らず、<strong>Chromeの起動を試すリンク</strong>を用意しました。これは実験用で、Xが許可する保証はありません。</p>
-      <a class="android-launch" id="android-intent-link" href="intent://h4m4chi-ttr.github.io/x-external-browser/round6/play.html#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fh4m4chi-ttr.github.io%2Fx-external-browser%2Fround6%2Fplay.html;end"><span class="android-mark" aria-hidden="true">↗</span><span><strong>Chromeでゲームを開く</strong><small>タップして外部ブラウザ起動を試す</small></span></a>
-      <p class="android-note">Chromeがインストールされている場合の試験です。XがIntentを処理しなければ無反応、エラー、X内での再表示になることがあります。「Chromeで実行中」という表示だけでは、独立したブラウザへの移動は確認できません。</p>
+      <div class="detected"><span class="indicator"></span><span id="android-mode-title">Android版Xからゲームを開く</span></div>
+      <p class="mode-description">Androidでは長押しやQRのメニューは使えなかったため、<strong>Xのメニューから外部ブラウザへ切り替える</strong>方法を先に案内します。</p>
+      <div class="android-primary-guide">
+        <span class="android-guide-icon" aria-hidden="true">↗</span>
+        <div><strong>⋮ → ブラウザで開く</strong>
+        <p>X内ブラウザのメニュー（右上など）から「ブラウザで開く」または「Chromeブラウザで開く」を選択してください。</p></div>
+      </div>
+      <p class="android-note">ブラウザ内に「Chromeで実行中」と表示されるだけでは、Chromeアプリへ切り替わった証拠にはなりません。画面やアプリ切替で確認してください。メニュー位置はXの版によって違います。</p>
       <details class="android-fallback" open>
-        <summary>開けない場合：Xのメニューから外部ブラウザへ</summary>
-        <ol>
-          <li>X内ブラウザの右上などにある<strong>「⋮」</strong>をタップ</li>
-          <li><strong>「ブラウザで開く」／「Chromeブラウザで開く」</strong>を選択</li>
-          <li>ブラウザの画面になったら、ゲームをプレイ</li>
-        </ol>
-        <p>メニューの位置や文言はXアプリのバージョンで変わります。Android版Xの設定に「外部リンクを開く → 外部ブラウザ」がある場合は、今後のリンクを最初から外部で開く設定も検討できますが、環境によっては効かない報告もあります。</p>
+        <summary>メニューから開けない場合：URLをコピー</summary>
+        <p>ゲームのURLをコピーして、お好みのブラウザのアドレス欄へ貼り付けてください。</p>
         <label for="android-copy-url">ゲームのURL</label>
         <div class="copy-row"><input id="android-copy-url" type="text" readonly value="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html"><button id="copy-android" type="button">コピー</button></div>
         <p id="copy-android-status" aria-live="polite"></p>
-        <a class="android-normal-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">通常リンクでゲームを開く（X内のままの可能性あり）</a>
+        <a class="android-normal-link" href="https://h4m4chi-ttr.github.io/x-external-browser/round6/play.html">普通のタップで開く（X内ブラウザのままの可能性あり）</a>
       </details>
+      <details class="android-experiment">
+        <summary>検証用：Chrome Intentリンク（実機ではエラー報告あり）</summary>
+        <p><strong>「このアクションを実行できるアプリはありません」</strong>との実機報告がありました。これはChromeが入っていないことを証明するものではなく、X側で処理できない可能性もあります。一般利用者向けの起動方法としては推奨しません。</p>
+        <a class="android-launch" id="android-intent-link" href="intent://h4m4chi-ttr.github.io/x-external-browser/round6/play.html#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fh4m4chi-ttr.github.io%2Fx-external-browser%2Fround6%2Fplay.html;end"><span class="android-mark" aria-hidden="true">↗</span><span><strong>Chromeでゲームを開く（実験）</strong><small>成功未確認。エラーが出た場合はメニューを使ってください。</small></span></a>
+      </details>
+      <p class="android-note">Android版Xの設定に「外部リンクを開く → 外部ブラウザ」がある場合は、今後のリンクを外部で開く設定も検討できます。ただし、設定の場所や実際の動作はXの版で変わることがあります。</p>
     </section>
 
     <section id="normal-ui" class="mode-card normal-mode" aria-labelledby="normal-mode-title">
@@ -82,6 +97,16 @@
       <div class="panel-heading"><span class="eyebrow">WHAT WE ARE TESTING</span><h2 id="info-title">今回、確かめたいこと</h2></div>
       <p>第4弾で確認したのは<strong>通常リンクを長押し → メニューの「Safariで開く」</strong>でした。今回は「プレビュー自体をタップしたら外部ブラウザへ飛べるか」という別の操作を試します。</p>
       <form id="result-form" class="result-form">
+        <label for="link-variant">長押ししたリンク</label>
+        <select id="link-variant" required>
+          <option value="">選択してください</option>
+          <option value="simple">新しい大きなテキストリンク</option>
+          <option value="absolute">素のテキストリンク（絶対URL）</option>
+          <option value="relative">素のテキストリンク（相対URL）</option>
+          <option value="ornate">旧版の装飾カード</option>
+          <option value="back">上部「トップに戻る」（対照）</option>
+          <option value="android">Androidの外部ブラウザ導線</option>
+        </select>
         <label for="route">試した操作</label>
         <select id="route" required>
           <option value="">選択してください</option>

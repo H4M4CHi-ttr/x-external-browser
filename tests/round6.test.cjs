@@ -9,7 +9,7 @@ const play=fs.readFileSync(path.join(dir, 'play.html'),'utf8');
 const gateJs=fs.readFileSync(path.join(dir, 'gate.js'),'utf8');
 const gameJs=fs.readFileSync(path.join(dir, 'play.js'),'utf8');
 test('CTA is a plain same-site HTTPS anchor with no JS interception', () => {
-  assert.match(gate, /id="game-preview-link" class="launch-card" href="https:\/\/h4m4chi-ttr\.github\.io\/x-external-browser\/round6\/play\.html"/);
+  assert.match(gate, /id="game-preview-link" class="launch-simple" href="https:\/\/h4m4chi-ttr\.github\.io\/x-external-browser\/round6\/play\.html"/);
   assert.doesNotMatch(gateJs, /preventDefault\(\)[\s\S]*game-preview-link|querySelector\([^)]*game-preview-link[^)]*\)/);
   assert.doesNotMatch(gate, /oncontextmenu=|ontouchstart=|ontouchend=/i);
 });
@@ -51,4 +51,24 @@ test('fallback is actionable without native intent support', () => {
   assert.match(gate, /id="copy-android"/);
   assert.match(gate, /id="android-copy-url"/);
   assert.match(gateJs, /navigator\.clipboard\?\.writeText/);
+});
+
+test('Primary game link is a single text node and test controls point to same game', () => {
+  assert.match(gate, /<a id="game-preview-link" class="launch-simple" href="https:\/\/h4m4chi-ttr\.github\.io\/x-external-browser\/round6\/play\.html">長押しでゲームプレイ<\/a>/);
+  assert.match(gate, /id="game-absolute-link" href="https:\/\/h4m4chi-ttr\.github\.io\/x-external-browser\/round6\/play\.html"/);
+  assert.match(gate, /id="game-relative-link" href="\.\/play\.html"/);
+  assert.match(gate, /id="old-ornate-card" class="launch-card"/);
+});
+test('Result form captures which link was tested', () => {
+  assert.match(gate, /id="link-variant"/);
+  assert.match(gateJs, /\$\('link-variant'\)\.value/);
+  assert.match(gateJs, /items\.push\(\{route, result, variant,/);
+});
+
+test('Android default prioritizes the manual external-browser route', () => {
+  const main = gate.indexOf('class="android-primary-guide"');
+  const experimental = gate.indexOf('class="android-experiment"');
+  assert.match(gate, /class="android-primary-guide"/);
+  assert.match(gate, /このアクションを実行できるアプリはありません/);
+  assert.ok(main > 0 && experimental > main);
 });
