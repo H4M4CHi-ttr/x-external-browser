@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="X内蔵ブラウザからSafariへワンタップで開けるか。302・window.open・OS自動リンク認識を対照実験。">
+<meta property="og:title" content="第5弾：ワンタップでSafariへ出られる？ | Browser Escape Lab">
+<meta property="og:description" content="302・noopener有無・自動リンク認識を比較。実機での成功を保証しません。">
+<meta name="twitter:card" content="summary">
+<title>第5弾：ワンタップでSafariへ？ | Browser Escape Lab</title>
+<link rel="stylesheet" href="./styles.css">
+<script src="./app.js" defer></script>
+</head>
+<body>
+<header class="wrap site-header">
+<a class="brand" href="../">↗ Browser Escape Lab</a><span class="pill">EXPERIMENT 05</span>
+</header>
+<main class="wrap">
+<section class="hero">
+<p class="eyebrow">X IN-APP BROWSER · ROUND 05</p>
+<h1>1タップでSafariへ。<br><span>今度こそ？</span></h1>
+<p class="lead">長押し→「Safariで開く」は成功済み。次は<strong>長押しも共有メニューも使わず</strong>、通常タップで外部ブラウザが起動する経路を探す。</p>
+<p class="notice"><strong>未確認の仮説を検証するページです。</strong> 一覧の表示だけでは遷移しません。まずSafari本体で対照実験、次にX内ブラウザで試してください。リンクが開いたことと、Safariアプリが独立して開いたことは別です。</p>
+<nav aria-label="実験カテゴリ"><a href="#h">HTTP 302</a><a href="#o">window.open</a><a href="#d">自動リンク認識</a><a href="#records">記録</a></nav>
+</section>
+
+<section class="panel" id="h">
+<p class="eyebrow">GROUP H / SERVER-SIDE REDIRECT</p><h2>302は「許可先」を使って検証</h2>
+<p>第3弾のHTTP 302はサービスの転送先制限に阻まれました。今回は、サービスが案内した許可先の一つ <code>example.com</code> へ送ります。H0で直接起動、H1で通常302、H2でSafariスキームを302に載せる違いを比べます。</p>
+<div class="cards">
+<article class="case"><p class="case-id">H0 · 対照</p><h3>Safariスキームへの直接リンク</h3><p>302を使わず、同じ <code>example.com</code> へ直接渡す。</p><a class="test-link" id="h0" href="x-safari-https://example.com/">直接リンクをタップ</a></article>
+<article class="case"><p class="case-id">H1 · 対照</p><h3>302 → 通常HTTPS</h3><p>外部サービスが302を正常に返すか、まず確認。</p><a class="test-link" id="h1" href="https://httpbingo.org/redirect-to?url=https%3A%2F%2Fexample.com%2F">通常302をタップ</a></article>
+<article class="case"><p class="case-id">H2 · 比較</p><h3>302 → Safariスキーム</h3><p>転送応答で <code>x-safari-https://example.com/</code> を指定。</p><a class="test-link" id="h2" href="https://httpbingo.org/redirect-to?url=x-safari-https%3A%2F%2Fexample.com%2F">Safari指定302をタップ</a></article>
+<article class="case"><p class="case-id">H3 · X投稿から</p><h3>投稿リンク → 302</h3><p>H2のURLをXに貼り、ページ表示前に302を受ける経路を比較。</p><label for="direct-302">Xに貼るURL</label><input id="direct-302" readonly value="https://httpbingo.org/redirect-to?url=x-safari-https%3A%2F%2Fexample.com%2F"><button type="button" id="copy-direct" class="subtle">URLをコピー</button></article>
+</div>
+<p class="muted">302は第三者の <a href="https://httpbingo.org/" rel="noreferrer">httpbingo.org</a> を使います。クリック時にIP・User-Agent等が同サービスへ送られます。<strong>302が実際に返されたかは未確認</strong>なので、403等のサービスエラーは「Xが拒否した」と扱わないでください。</p>
+</section>
+
+<section class="panel" id="o">
+<p class="eyebrow">GROUP O / NEW WINDOW REQUEST</p><h2><code>noopener</code> の有無で分岐する？</h2>
+<p>第1弾は <code>window.open(url, "_blank", "noopener")</code> でした。今回は、クリックイベント中に同期で実行し、<strong>noopenerだけを変える</strong>ペアを用意しました。テスト先はすべてこのサイトの到達ページで、外部の任意URLには送れません。</p>
+<div class="cards">
+<article class="case"><p class="case-id">O1 · 通常HTTPS</p><h3>noopenerあり</h3><p>新しい閲覧画面の基準ケース。</p><button type="button" data-open="o1">通常URL・noopenerあり</button></article>
+<article class="case"><p class="case-id">O2 · 通常HTTPS</p><h3>noopenerなし</h3><p>O1と同じURL・同じユーザー操作。</p><button type="button" data-open="o2">通常URL・noopenerなし</button></article>
+<article class="case"><p class="case-id">O3 · Safari指定</p><h3>noopenerあり</h3><p>Safariスキーム指定での基準ケース。</p><button type="button" data-open="o3">Safari指定・noopenerあり</button></article>
+<article class="case"><p class="case-id">O4 · Safari指定</p><h3>noopenerなし</h3><p>O3と同じURLでnoopenerだけ除外。</p><button type="button" data-open="o4">Safari指定・noopenerなし</button></article>
+</div>
+<p id="open-status" class="inline-status" role="status" aria-live="polite">未実行。JavaScriptの戻り値から成功・失敗を自動判定しません。</p>
+<p class="muted">noopenerなしはページ間の連携を許すため、検証先は管理下の同一オリジンに限定しています。Safariが別アプリで開いたかは目視してください。</p>
+</section>
+
+<section class="panel" id="d">
+<p class="eyebrow">GROUP D / NATIVE DATA DETECTORS</p><h2>OSが自動でリンク化した文字をタップ</h2>
+<p>ここはLive Text画像とは異なり、<strong>HTML上の普通の文字列</strong>です。WebKitが文字をリンクに変える設定をXが有効にしていれば、通常の <code>&lt;a&gt;</code> と違う処理に入る可能性があります。</p>
+<div class="detectors">
+<div class="detector"><span class="case-id">D1 · 普通のHTMLリンク（対照）</span><a href="https://example.com/" id="d1">https://example.com/</a></div>
+<div class="detector"><span class="case-id">D2 · リンクタグなし</span><p id="d2">https://example.com/</p></div>
+<div class="detector"><span class="case-id">D3 · ドメイン文字列</span><p id="d3">example.com</p></div>
+<div class="detector"><span class="case-id">D4 · www付き文字列</span><p id="d4">www.example.com</p></div>
+</div>
+<p class="muted">D2〜D4に<strong>下線などのリンク表示が現れるか</strong>を先に観察し、リンク化された場合だけ通常タップしてください。文字選択だけなら「リンク化なし」です。自動認識はWebViewの設定次第で、初期値は無効です。Webページから設定を有効にはできません。</p>
+</section>
+
+<section class="panel" id="records">
+<p class="eyebrow">OBSERVATION / MANUAL ONLY</p><h2>タップ数と実際の結果を記録</h2>
+<form id="result-form">
+<div class="fields">
+<label>ケース<select id="case" name="case" required><option value="">選択してください</option>
+<option value="h0">H0 直接Safari指定</option><option value="h1">H1 302→HTTPS</option><option value="h2">H2 302→Safari指定</option><option value="h3">H3 X投稿から302</option>
+<option value="o1">O1 通常URL noopenerあり</option><option value="o2">O2 通常URL noopenerなし</option><option value="o3">O3 Safari指定 noopenerあり</option><option value="o4">O4 Safari指定 noopenerなし</option>
+<option value="d1">D1 HTMLリンク</option><option value="d2">D2 URL文字列</option><option value="d3">D3 ドメイン文字列</option><option value="d4">D4 www文字列</option></select></label>
+<label>試した場所<select id="source" name="source" required><option value="">選択してください</option><option value="x">X内ブラウザ</option><option value="xpost">X投稿のリンク</option><option value="safari">Safari本体</option><option value="other">その他</option></select></label>
+<label>見えた結果<select id="outcome" name="outcome" required><option value="">選択してください</option>
+<option value="safari">Safariが別アプリで開いた</option><option value="otherbrowser">別の外部ブラウザで開いた</option><option value="inapp">X内で開いた／移動した</option><option value="newview">X内の別の画面・タブが開いた</option><option value="menu">確認メニューだけ出た</option><option value="service">302サービスのエラー・拒否</option><option value="blocked">無反応・遷移拒否</option><option value="unknown">判定できない</option>
+</select></label>
+<label>自動リンク化の見た目<select id="detected" name="detected"><option value="">対象外・未記入</option><option value="yes">自動リンク化したように見える</option><option value="no">リンク化していない</option><option value="unknown">判断できない</option></select></label>
+<label>操作回数（任意）<input id="steps" name="steps" inputmode="numeric" type="number" min="0" max="30" placeholder="例: 1"></label>
+<label>端末・OS（任意）<input id="device" name="device" maxlength="160" placeholder="例: iPhone / iOS 27.2.1"></label>
+<label>Xアプリ版（任意）<input id="xVersion" name="xVersion" maxlength="100" placeholder="例: 12.45.1"></label>
+</div>
+<label>補足（任意）<textarea id="note" name="note" maxlength="800" rows="3" placeholder="ダイアログ表示・Xの画面のままか・実際の302応答を確認したかなど"></textarea></label>
+<div class="actions"><button type="submit">結果を保存</button><button type="button" id="export">JSONを表示</button><button type="button" class="secondary" id="clear">第5弾の記録を消去</button></div>
+</form>
+<p id="storage-warning" class="notice" hidden>保存できない環境です。ページを閉じる前にJSONをコピーしてください。</p>
+<p id="status" role="status" aria-live="polite"></p>
+<details><summary>記録済みの試行 <span id="count">0件</span></summary><div id="history"></div></details>
+<section id="export-box" hidden><label for="json">結果JSON（端末情報・メモを含みます）</label><textarea id="json" rows="10" readonly></textarea><button id="copy-json" type="button">JSONをコピー</button></section>
+<p class="muted">記録はこのブラウザのlocalStorageに最大100件。自動送信なし。X内ブラウザとSafariは保存領域が異なるため、戻って結果を記録してください。</p>
+</section>
+<footer><a href="../">第1弾</a> · <a href="../round2/">第2弾</a> · <a href="../round3/">第3弾</a> · <a href="../round4/">第4弾</a> · <a href="https://github.com/H4M4CHi-ttr/x-external-browser/tree/main/round5" rel="noreferrer">コードと説明</a></footer>
+</main></body></html>
