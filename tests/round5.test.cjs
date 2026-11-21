@@ -15,6 +15,12 @@ test('paired open cases and click synchronous without await',()=>{
   assert.match(script,/window\.open\(spec\.url,'_blank','noopener'\)/);
   assert.match(script,/window\.open\(spec\.url,'_blank'\)/);
 });
+test('cross-domain O5 O6 preserve paired same-domain opener behavior',()=>{
+  assert.match(html,/data-open="o5"/);
+  assert.match(html,/data-open="o6"/);
+  assert.match(script,/o5:\{url:'https:\/\/example\.com\/',noopener:true\}/);
+  assert.match(script,/o6:\{url:'https:\/\/example\.com\/',noopener:false\}/);
+});
 test('data-detector tests are bare text except D1 control',()=>{
   assert.match(html,/<a href="https:\/\/example\.com\/" id="d1">/);
   for(const k of ['d2','d3','d4']) assert.match(html,new RegExp('<p id="'+k+'">'));

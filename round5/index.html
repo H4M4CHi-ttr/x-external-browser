@@ -40,15 +40,17 @@
 
 <section class="panel" id="o">
 <p class="eyebrow">GROUP O / NEW WINDOW REQUEST</p><h2><code>noopener</code> の有無で分岐する？</h2>
-<p>第1弾は <code>window.open(url, "_blank", "noopener")</code> でした。今回は、クリックイベント中に同期で実行し、<strong>noopenerだけを変える</strong>ペアを用意しました。テスト先はすべてこのサイトの到達ページで、外部の任意URLには送れません。</p>
+<p>第1弾は <code>window.open(url, "_blank", "noopener")</code> でした。今回は、クリックイベント中に同期で実行し、<strong>noopenerだけを変える</strong>ペアを用意しました。O1〜O4は同じサイト内の到達ページ、O5/O6は別ドメインの固定先 <code>example.com</code> を使用します。</p>
 <div class="cards">
 <article class="case"><p class="case-id">O1 · 通常HTTPS</p><h3>noopenerあり</h3><p>新しい閲覧画面の基準ケース。</p><button type="button" data-open="o1">通常URL・noopenerあり</button></article>
 <article class="case"><p class="case-id">O2 · 通常HTTPS</p><h3>noopenerなし</h3><p>O1と同じURL・同じユーザー操作。</p><button type="button" data-open="o2">通常URL・noopenerなし</button></article>
 <article class="case"><p class="case-id">O3 · Safari指定</p><h3>noopenerあり</h3><p>Safariスキーム指定での基準ケース。</p><button type="button" data-open="o3">Safari指定・noopenerあり</button></article>
 <article class="case"><p class="case-id">O4 · Safari指定</p><h3>noopenerなし</h3><p>O3と同じURLでnoopenerだけ除外。</p><button type="button" data-open="o4">Safari指定・noopenerなし</button></article>
+<article class="case"><p class="case-id">O5 · 別ドメイン</p><h3>HTTPS・noopenerあり</h3><p>O1と同じ呼出し条件で、送信先だけ <code>example.com</code> へ変更。別ドメイン判定の影響を確認。</p><button type="button" data-open="o5">別ドメイン・noopenerあり</button></article>
+<article class="case"><p class="case-id">O6 · 別ドメイン</p><h3>HTTPS・noopenerなし</h3><p>O2と同じ呼出し条件で、送信先だけ <code>example.com</code> へ変更。</p><button type="button" data-open="o6">別ドメイン・noopenerなし</button></article>
 </div>
 <p id="open-status" class="inline-status" role="status" aria-live="polite">未実行。JavaScriptの戻り値から成功・失敗を自動判定しません。</p>
-<p class="muted">noopenerなしはページ間の連携を許すため、検証先は管理下の同一オリジンに限定しています。Safariが別アプリで開いたかは目視してください。</p>
+<p class="muted">noopenerなしは開き元のウィンドウへの参照が残る場合があります。検証先は当サイトと予約済みの <code>example.com</code> に固定し、一般の任意URLには使わないでください。Safariが別アプリで開いたかは目視してください。</p>
 </section>
 
 <section class="panel" id="d">
@@ -70,6 +72,7 @@
 <label>ケース<select id="case" name="case" required><option value="">選択してください</option>
 <option value="h0">H0 直接Safari指定</option><option value="h1">H1 302→HTTPS</option><option value="h2">H2 302→Safari指定</option><option value="h3">H3 X投稿から302</option>
 <option value="o1">O1 通常URL noopenerあり</option><option value="o2">O2 通常URL noopenerなし</option><option value="o3">O3 Safari指定 noopenerあり</option><option value="o4">O4 Safari指定 noopenerなし</option>
+<option value="o5">O5 別ドメイン HTTPS noopenerあり</option><option value="o6">O6 別ドメイン HTTPS noopenerなし</option>
 <option value="d1">D1 HTMLリンク</option><option value="d2">D2 URL文字列</option><option value="d3">D3 ドメイン文字列</option><option value="d4">D4 www文字列</option></select></label>
 <label>試した場所<select id="source" name="source" required><option value="">選択してください</option><option value="x">X内ブラウザ</option><option value="xpost">X投稿のリンク</option><option value="safari">Safari本体</option><option value="other">その他</option></select></label>
 <label>見えた結果<select id="outcome" name="outcome" required><option value="">選択してください</option>

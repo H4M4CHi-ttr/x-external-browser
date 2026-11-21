@@ -35,7 +35,8 @@ function render(){
 // window.open is synchronous in the user gesture; no await/timer/promise before the call.
 const opens={
   o1:{url:SAMESITE,noopener:true},o2:{url:SAMESITE,noopener:false},
-  o3:{url:SAFARI,noopener:true},o4:{url:SAFARI,noopener:false}
+  o3:{url:SAFARI,noopener:true},o4:{url:SAFARI,noopener:false},
+  o5:{url:'https://example.com/',noopener:true},o6:{url:'https://example.com/',noopener:false}
 };
 document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>{
   const spec=opens[button.dataset.open];if(!spec)return;
